@@ -4,6 +4,7 @@ echo "Hello $1"
 echo "$(ls)"
 echo "Hello again"
 time=$(date)
+apt-get update
 apt-get install curl
 apt-get install python3.7-dev
 curl "https://bootstrap.pypa.io/get-pip.py" -o "get-pip.py"
