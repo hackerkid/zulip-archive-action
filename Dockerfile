@@ -1,5 +1,5 @@
 # Container image that runs your code
-FROM ubuntu:18.04
+FROM hackerkid/zulip-archive
 
 # Copies your code file from your action repository to the filesystem path `/` of the container
 COPY entrypoint.sh /entrypoint.sh
