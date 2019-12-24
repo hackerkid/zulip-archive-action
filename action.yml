@@ -1,18 +1,13 @@
 # action.yml
-name: 'Hello World'
-description: 'Greet someone and record the time'
+name: 'Zulip Archive'
+description: 'Publish Zulip archive in GitHub pages'
 inputs:
-  site:  # id of input
+  site:
     description: 'URL of Zulip organization'
     required: true
-    default: ''
-  key:  # id of input
+  key:
     description: 'API key of the bot'
     required: true
-    default: ''
-outputs:
-  time: # id of output
-    description: 'The time we greeted you'
 runs:
   using: 'docker'
   image: 'Dockerfile'
