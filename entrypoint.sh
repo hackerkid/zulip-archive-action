@@ -10,8 +10,8 @@ pip3 install zulip
 $site_url=$1
 $api_key=$2
 
-mkdir archive
-mkdir zulip_json
+mkdir -p archive
+mkdir -p zulip_json
 
 git clone https://github.com/hackerkid/zulip-archive
 cd  zulip-archive
@@ -27,3 +27,9 @@ export ARCHIVE_DIRECTORY="../archive"
 
 python3 archive.py -t
 python3 archive.py -b
+
+cd ..
+git add archive
+git add zulip_json
+git commit -m "Update archive."
+git push origin master --force
