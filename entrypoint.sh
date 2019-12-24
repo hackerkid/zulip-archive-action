@@ -38,4 +38,4 @@ git config --global user.name "Archive Bot"
 git add archive
 git add zulip_json
 git commit -m "Update archive."
-git push origin master --force
+git push origin HEAD --force
