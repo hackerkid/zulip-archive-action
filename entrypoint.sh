@@ -4,7 +4,23 @@ virtualenv -p python3 .
 source bin/activate
 pip3 install zulip
 
-crudini --set zuliprc api site $1
-crudini --set zuliprc api key $2
+$site_url=$1
+$api_key=$2
 
-more zuliprc
+mkdir archive
+mkdir zulip_json
+
+git clone https://github.com/hackerkid/zulip-archive
+cd  zulip-archive
+git checkout gh-action
+cp default_settings.py settings.py
+
+crudini --set zuliprc api site $site_url
+crudini --set zuliprc api key $api_key
+
+export PROD_ARCHIVE=true
+export SITE_URL=$site_url
+export ARCHIVE_DIRECTORY="../archive"
+
+python3 archive.py -t
+python3 archive.py -b
