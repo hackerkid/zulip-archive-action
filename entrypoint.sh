@@ -7,8 +7,8 @@ virtualenv -p python3 .
 source bin/activate
 pip3 install zulip
 
-$site_url=$1
-$api_key=$2
+site_url=$1
+api_key=$2
 
 mkdir -p archive
 mkdir -p zulip_json
