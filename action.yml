@@ -6,10 +6,13 @@ inputs:
     description: 'URL of Zulip organization'
     required: true
   key:
-    description: 'API key of the bot'
+    description: 'API key of the Zulip bot'
     required: true
   email:
-    description: 'Email of the bot'
+    description: 'Email of the Zulip bot'
+    required: true
+  github_token:
+    description: 'GitHub token'
     required: true
 runs:
   using: 'docker'
@@ -18,3 +21,4 @@ runs:
     - ${{ inputs.site }}
     - ${{ inputs.key }}
     - ${{ inputs.email }}
+    - ${{ inputs.github_token }}
