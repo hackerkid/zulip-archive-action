@@ -29,9 +29,9 @@ crudini --set zuliprc api email $zulip_bot_email
 
 export PROD_ARCHIVE=true
 export SITE_URL=$site_url
-export ARCHIVE_DIRECTORY=${repo_path}
+export ARCHIVE_DIRECTORY="${repo_path}"
 export JSON_DIRECTORY="${repo_path}/zulip_json"
-export HTML_ROOT=""
+# export HTML_ROOT=""
 
 python3 archive.py -t
 python3 archive.py -b
