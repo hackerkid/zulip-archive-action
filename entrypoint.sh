@@ -2,7 +2,7 @@
 zulip_realm_url=$1
 zulip_bot_api_key=$2
 zulip_bot_email=$3
-github_token=$4
+github_personal_access_token=$4
 
 repo_path="$(pwd)"
 archive_dir_path=$repo_path
@@ -20,6 +20,16 @@ virtualenv -p python3 .
 source bin/activate
 pip3 install zulip
 
+# GitHub pages API is in Preview mode. This might break in future.
+auth_header="Authorization: Bearer ${github_personal_access_token}"
+accept_header="Accept: application/vnd.github.switcheroo-preview+json"
+page_api_url="https://api.github.com/repos/${GITHUB_REPOSITORY}/pages"
+# Enable GitHub pages
+curl -H "$auth_header" -H "$accept_header" --data "source=master" "$page_api_url"
+
+print_site_url_code="import sys, json; print(json.load(sys.stdin)['html_url'])"
+github_pages_url=$(curl -H "${auth_header}" $page_api_url | python3 -c "${print_site_url_code}")
+
 git clone https://github.com/hackerkid/zulip-archive
 cd  zulip-archive
 git checkout gh-action
@@ -30,7 +40,7 @@ crudini --set zuliprc api key $zulip_bot_api_key
 crudini --set zuliprc api email $zulip_bot_email
 
 export PROD_ARCHIVE=true
-export SITE_URL="/"
+export SITE_URL=$github_pages_url
 export ARCHIVE_DIRECTORY=$archive_dir_path
 export JSON_DIRECTORY=$json_dir_path
 export HTML_ROOT=""
@@ -50,6 +60,7 @@ else
     python3 archive.py -i
 fi
 
+
 python3 archive.py -b
 
 cd ..
@@ -63,6 +74,8 @@ git config --global user.name "Archive Bot"
 git add -A
 git commit -m "Update archive."
 
-git remote set-url --push origin https://${GITHUB_ACTOR}:${github_token}@github.com/${GITHUB_REPOSITORY}
+git remote set-url --push origin https://${GITHUB_ACTOR}:${github_personal_access_token}@github.com/${GITHUB_REPOSITORY}
 
 git push origin master --force
+
+echo "Zulip Archive published/updated in ${github_pages_url}"
