@@ -1,4 +1,7 @@
 #!/bin/bash
+git config --global core.eol lf
+git config --global core.text auto
+
 zulip_realm_url=$1
 zulip_bot_api_key=$2
 zulip_bot_email=$3
@@ -67,6 +70,7 @@ python3 archive.py -b
 cd ..
 
 cd ${repo_path}
+
 git checkout master
 
 git config --global user.email "zulip-archive-bot@users.noreply.github.com"
