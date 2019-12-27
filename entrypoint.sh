@@ -1,5 +1,5 @@
 #!/bin/bash
-site_url=$1
+zulip_realm_url=$1
 zulip_bot_api_key=$2
 zulip_bot_email=$3
 github_token=$4
@@ -25,7 +25,7 @@ cd  zulip-archive
 git checkout gh-action
 cp default_settings.py settings.py
 
-crudini --set zuliprc api site $site_url
+crudini --set zuliprc api site $zulip_realm_url
 crudini --set zuliprc api key $zulip_bot_api_key
 crudini --set zuliprc api email $zulip_bot_email
 
