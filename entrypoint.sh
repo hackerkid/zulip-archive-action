@@ -30,7 +30,7 @@ crudini --set zuliprc api key $zulip_bot_api_key
 crudini --set zuliprc api email $zulip_bot_email
 
 export PROD_ARCHIVE=true
-export SITE_URL=$site_url
+export SITE_URL="/"
 export ARCHIVE_DIRECTORY=$archive_dir_path
 export JSON_DIRECTORY=$json_dir_path
 export HTML_ROOT=""
