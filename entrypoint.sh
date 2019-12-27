@@ -8,6 +8,7 @@ repo_path="$(pwd)"
 archive_dir_path=$repo_path
 json_dir_path="${repo_path}/zulip_json"
 _layouts_path="${repo_path}/_layouts"
+img_dir_path="${repo_path}/assets/img"
 
 cd ..
 
@@ -36,11 +37,18 @@ export HTML_ROOT=""
 
 if [ ! -d $json_dir_path ]; then
     mkdir -p $json_dir_path
-    cp -rf layouts $_layouts_path
+
+    mkdir -p $_layouts_path
+    cp -rf layouts/* $_layouts_path
+
+    mkdir -p $img_dir_path
+    cp assets/img/* $img_dir_path
+
     python3 archive.py -t
 else
     python3 archive.py -i
 fi
+
 python3 archive.py -b
 
 cd ..
