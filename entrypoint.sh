@@ -28,7 +28,8 @@ page_api_url="https://api.github.com/repos/${GITHUB_REPOSITORY}/pages"
 curl -H "$auth_header" -H "$accept_header" --data "source=master" "$page_api_url"
 
 print_site_url_code="import sys, json; print(json.load(sys.stdin)['html_url'])"
-github_pages_url=$(curl -H "${auth_header}" $page_api_url | python3 -c "${print_site_url_code}")
+github_pages_url_with_trailing_slash=$(curl -H "${auth_header}" $page_api_url | python3 -c "${print_site_url_code}")
+github_pages_url=${github_pages_url_with_trailing_slash%/}
 
 git clone https://github.com/hackerkid/zulip-archive
 cd  zulip-archive
