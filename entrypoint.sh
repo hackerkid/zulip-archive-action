@@ -3,10 +3,11 @@ site_url=$1
 zulip_bot_api_key=$2
 zulip_bot_email=$3
 github_token=$4
-repo_path="$(pwd)"
 
-mkdir -p archive
-mkdir -p zulip_json
+repo_path="$(pwd)"
+archive_dir_path=$repo_path
+json_dir_path="${repo_path}/zulip_json"
+_layouts_path="${repo_path}/_layouts"
 
 cd ..
 
@@ -29,11 +30,17 @@ crudini --set zuliprc api email $zulip_bot_email
 
 export PROD_ARCHIVE=true
 export SITE_URL=$site_url
-export ARCHIVE_DIRECTORY="${repo_path}"
-export JSON_DIRECTORY="${repo_path}/zulip_json"
+export ARCHIVE_DIRECTORY=$archive_dir_path
+export JSON_DIRECTORY=$json_dir_path
 export HTML_ROOT=""
 
-python3 archive.py -t
+if [ ! -d $json_dir_path ]; then
+    mkdir -p $json_dir_path
+    cp -rf layouts $_layouts_path
+    python3 archive.py -t
+else
+    python3 archive.py -i
+fi
 python3 archive.py -b
 
 cd ..
