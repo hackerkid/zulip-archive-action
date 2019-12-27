@@ -45,7 +45,7 @@ export SITE_URL=$github_pages_url
 export ARCHIVE_DIRECTORY=$archive_dir_path
 export JSON_DIRECTORY=$json_dir_path
 export HTML_ROOT=""
-export ZULIP_ICON_URL="/assets/img/zulip2.png"
+export ZULIP_ICON_URL="${github_pages_url}/assets/img/zulip2.png"
 
 if [ ! -d $json_dir_path ]; then
     mkdir -p $json_dir_path
