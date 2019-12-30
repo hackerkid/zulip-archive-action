@@ -31,8 +31,9 @@ page_api_url="https://api.github.com/repos/${GITHUB_REPOSITORY}/pages"
 curl -H "$auth_header" -H "$accept_header" --data "source=master" "$page_api_url"
 
 print_site_url_code="import sys, json; print(json.load(sys.stdin)['html_url'])"
-github_pages_url_with_trailing_slash=$(curl -H "${auth_header}" $page_api_url | python3 -c "${print_site_url_code}")
-github_pages_url=${github_pages_url_with_trailing_slash%/}
+github_pages_url=$(curl -H "${auth_header}" $page_api_url | python3 -c "${print_site_url_code}")
+github_pages_domain=$(echo $github_pages_url | awk -F[/:] '{print $1"://"$4}')
+github_pages_html_root=$(echo $github_pages_url | awk -F[/:] '{print $5}')
 
 git clone https://github.com/hackerkid/zulip-archive
 cd  zulip-archive
@@ -44,10 +45,10 @@ crudini --set zuliprc api key $zulip_bot_api_key
 crudini --set zuliprc api email $zulip_bot_email
 
 export PROD_ARCHIVE=true
-export SITE_URL=$github_pages_url
+export SITE_URL=$github_pages_domain
 export ARCHIVE_DIRECTORY=$archive_dir_path
 export JSON_DIRECTORY=$json_dir_path
-export HTML_ROOT=""
+export HTML_ROOT=$github_pages_html_root
 export ZULIP_ICON_URL="${github_pages_url}/assets/img/zulip2.png"
 
 if [ ! -d $json_dir_path ]; then
